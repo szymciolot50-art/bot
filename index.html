@@ -1,381 +1,330 @@
-<!DOCTYPE html>
-<html lang="pl">
+<!DOCTYPE html> <html lang="pl"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0"> <meta name="author" content="Szymekkjpg">
+<title>BOT</title>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="author" content="Szymekkjpg">
+<style>
 
-    <title>BOT</title>
+    * {
+        box-sizing: border-box;
+    }
 
-    <style>
+    body {
+        margin: 0;
+        min-height: 100vh;
 
-        * {
-            box-sizing: border-box;
-        }
+        font-family: Arial, sans-serif;
 
-        body {
-            margin: 0;
-            min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
 
-            font-family: Arial, sans-serif;
 
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-        }
+    #odpowiedz {
 
+        width: min(90%, 700px);
 
-        #odpowiedz {
+        min-height: 70px;
 
-            width: min(90%, 700px);
+        margin: 0 0 25px 0;
 
-            min-height: 70px;
+        padding: 20px;
 
-            margin: 0 0 25px 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
 
-            padding: 20px;
+        text-align: center;
 
-            display: flex;
-            justify-content: center;
-            align-items: center;
+        font-size: 18px;
 
-            text-align: center;
+        border-radius: 15px;
 
-            font-size: 18px;
+        white-space: pre-line;
 
-            border-radius: 15px;
+        line-height: 1.6;
 
-            white-space: pre-line;
+        background: green;
 
-            line-height: 1.6;
+        border: #1b6633;
+    }
 
-            background: green;
 
-            border: #1b6633;
-        }
+    .formularz {
 
+        display: flex;
 
-        .formularz {
+        gap: 10px;
 
-            display: flex;
+        width: min(90%, 700px);
+    }
 
-            gap: 10px;
 
-            width: min(90%, 700px);
-        }
+    #wiadomosc {
 
+        flex: 1;
 
-        #wiadomosc {
+        display: flex;
 
-            flex: 1;
+        padding: 15px;
 
-            display: flex;
+        font-size: 16px;
 
-            padding: 15px;
+        border: 2px solid #1b6633;
 
-            font-size: 16px;
+        border-radius: 12px;
 
-            border: 2px solid #1b6633;
+        outline: none;
+    }
 
-            border-radius: 12px;
 
-            outline: none;
-        }
+    #wiadomosc:focus {
 
+        border-color: #28c957;
 
-        #wiadomosc:focus {
+        box-shadow:
+            0 0 10px rgba(40, 201, 87, 0.3);
+    }
 
-            border-color: #28c957;
+    button {
+        display: flex;
 
-            box-shadow:
-                0 0 10px rgba(40, 201, 87, 0.3);
-        }
+        width: 55px;
 
-        button {
-            display: flex;
+        border: none;
 
-            width: 55px;
+        border-radius: 12px;
 
-            border: none;
+        background: #15943d;
 
-            border-radius: 12px;
+        color: white;
 
-            background: #15943d;
+        font-size: 22px;
 
-            color: white;
+        cursor: pointer;
 
-            font-size: 22px;
+        transition:
+            transform 0.2s,
+            box-shadow 0.2s,
+            background 0.2s;
+    }
 
-            cursor: pointer;
 
-            transition:
-                transform 0.2s,
-                box-shadow 0.2s,
-                background 0.2s;
-        }
+    button:hover {
 
+        background: #1abd4e;
 
-        button:hover {
+        transform: translateY(-2px);
 
-            background: #1abd4e;
+        box-shadow:
+            0 5px 15px rgba(20, 200, 80, 0.3);
+    }
 
-            transform: translateY(-2px);
 
-            box-shadow:
-                0 5px 15px rgba(20, 200, 80, 0.3);
-        }
+    button:active {
+        transform: scale(0.94);
+    }
 
 
-        button:active {
-            transform: scale(0.94);
-        }
+    .info {
 
+        margin-top: 15px;
 
-        .info {
+        color: #718276;
 
-            margin-top: 15px;
+        font-size: 13px;
+    }
 
-            color: #718276;
+</style>
+</head> <body>
+<p id="odpowiedz"></p>
 
-            font-size: 13px;
-        }
 
-    </style>
-</head>
+<div class="formularz">
 
+    <input
+        id="wiadomosc"
+        type="text"
+        placeholder="Napisz coś..."
+        autocomplete="off"
+    >
 
-<body>
+    <button onclick="odpowiedz()">
+        ➤
+    </button>
 
+</div>
 
-    <p id="odpowiedz"></p>
 
+<div class="info">
+    Enter = wyślij wiadomość
+</div>
 
-    <div class="formularz">
 
-        <input
-            id="wiadomosc"
-            type="text"
-            placeholder="Napisz coś..."
-            autocomplete="off"
-        >
 
-        <button onclick="odpowiedz()">
-            ➤
-        </button>
+<script>
 
-    </div>
 
+    const baza = {
 
-    <div class="info">
-        Enter = wyślij wiadomość
-    </div>
+        "gotowanie": {
 
+            "bigos": {
 
+                "opis":
+                    "Tradycyjna polska potrawa z kapusty kiszonej, świeżej kapusty i mięsa.",
 
-    <script>
+                "przepis": [
 
+                    "Jasne, oto przepis na bigos:",
 
-        /* =========================
-           BAZA DANYCH
-        ========================= */
+                    "",
 
-        const baza = {
+                    "SKŁADNIKI:",
 
-            "gotowanie": {
+                    "• 1 kg kapusty kiszonej",
+                    "• 500 g świeżej białej kapusty",
+                    "• 500 g mięsa (np. łopatka wieprzowa)",
+                    "• 200 g kiełbasy",
+                    "• 100 g boczku",
+                    "• 1 cebula",
+                    "• 30 g suszonych grzybów",
+                    "• 5–6 suszonych śliwek",
+                    "• 2 liście laurowe",
+                    "• 4 ziarna ziela angielskiego",
+                    "• 1 łyżeczka majeranku",
+                    "• 1–2 łyżki koncentratu pomidorowego",
+                    "• sól i pieprz",
+                    "• około 500 ml wody lub bulionu",
+                    "• olej do smażenia",
 
-                "bigos": {
+                    "",
 
-                    "opis":
-                        "Tradycyjna polska potrawa z kapusty kiszonej, świeżej kapusty i mięsa.",
+                    "PRZYGOTOWANIE:",
 
-                    "przepis": [
-
-                        "Jasne, oto przepis na bigos:",
-
-                        "",
-
-                        "SKŁADNIKI:",
-
-                        "• 1 kg kapusty kiszonej",
-                        "• 500 g świeżej białej kapusty",
-                        "• 500 g mięsa (np. łopatka wieprzowa)",
-                        "• 200 g kiełbasy",
-                        "• 100 g boczku",
-                        "• 1 cebula",
-                        "• 30 g suszonych grzybów",
-                        "• 5–6 suszonych śliwek",
-                        "• 2 liście laurowe",
-                        "• 4 ziarna ziela angielskiego",
-                        "• 1 łyżeczka majeranku",
-                        "• 1–2 łyżki koncentratu pomidorowego",
-                        "• sól i pieprz",
-                        "• około 500 ml wody lub bulionu",
-                        "• olej do smażenia",
-
-                        "",
-
-                        "PRZYGOTOWANIE:",
-
-                        "1. Kapustę kiszoną odciśnij i pokrój.",
-                        "2. Świeżą kapustę poszatkuj.",
-                        "3. Mięso, boczek i kiełbasę pokrój na kawałki.",
-                        "4. Podsmaż boczek, mięso i cebulę.",
-                        "5. Dodaj kapustę kiszoną i świeżą.",
-                        "6. Dodaj grzyby, śliwki, liście laurowe i ziele angielskie.",
-                        "7. Wlej wodę lub bulion.",
-                        "8. Duś na małym ogniu około 2–3 godziny.",
-                        "9. Dodaj kiełbasę, koncentrat i majeranek.",
-                        "10. Dopraw solą i pieprzem.",
-                        "11. Najlepiej odstawić bigos na noc i następnego dnia ponownie podgrzać."
-                    ]
-
-                },
-
-
-                "rosol": {
-
-                    "opis":
-                        "Tradycyjna polska zupa przygotowywana na mięsie, warzywach i przyprawach."
-
-                },
-
-
-                "nalesniki": {
-
-                    "opis":
-                        "Cienkie placki z ciasta smażonego na patelni."
-
-                }
+                    "1. Kapustę kiszoną odciśnij i pokrój.",
+                    "2. Świeżą kapustę poszatkuj.",
+                    "3. Mięso, boczek i kiełbasę pokrój na kawałki.",
+                    "4. Podsmaż boczek, mięso i cebulę.",
+                    "5. Dodaj kapustę kiszoną i świeżą.",
+                    "6. Dodaj grzyby, śliwki, liście laurowe i ziele angielskie.",
+                    "7. Wlej wodę lub bulion.",
+                    "8. Duś na małym ogniu około 2–3 godziny.",
+                    "9. Dodaj kiełbasę, koncentrat i majeranek.",
+                    "10. Dopraw solą i pieprzem.",
+                    "11. Najlepiej odstawić bigos na noc i następnego dnia ponownie podgrzać."
+                ]
 
             },
 
 
-            "geografia": {
+            "rosol": {
 
-                "polska": {
-
-                    "opis":
-                        "Polska to państwo znajdujące się w Europie Środkowej."
-                },
-                
-
-                "niemcy": {
-
-                    "opis":
-                        "Niemcy to państwo znajdujące się w Europie."
-
-                },
-
-
-                "francja": {
-
-                    "opis":
-                        "Francja to państwo znajdujące się w Europie Zachodniej."
-
-                }
+                "opis":
+                    "Tradycyjna polska zupa przygotowywana na mięsie, warzywach i przyprawach."
 
             },
 
 
-            "kosmos": {
+            "nalesniki": {
 
-                "slonce":
-                    "Gwiazda znajdująca się w centrum Układu Słonecznego.",
-
-                "ziemia":
-                    "Planeta, na której żyjemy.",
-
-                "ksiezyc":
-                    "Naturalny satelita Ziemi.",
-
-                "mars":
-                    "Czwarta planeta od Słońca.",
-
-                "jowisz":
-                    "Największa planeta Układu Słonecznego."
-
-            },
-
-
-            "zwierzeta": {
-
-                "pies": {
-
-                    "opis":
-                        "Udomowiony ssak należący do rodziny psowatych."
-
-                },
-
-
-                "kot": {
-
-                    "opis":
-                        "Mały udomowiony ssak z rodziny kotowatych."
-
-                },
-
-
-                "slon": {
-
-                    "opis":
-                        "Największy współcześnie żyjący lądowy ssak."
-
-                }
+                "opis":
+                    "Cienkie placki z ciasta smażonego na patelni."
 
             }
 
-        };
+        },
 
 
+        "geografia": {
+
+            "polska": {
+
+                "opis":
+                    "Polska to państwo znajdujące się w Europie Środkowej."
+            },
 
 
+            "niemcy": {
 
-        function znajdzInformacje(obiekt, pytanie) {
+                "opis":
+                    "Niemcy to państwo znajdujące się w Europie."
 
-            for (let klucz in obiekt) {
-
-                let wartosc = obiekt[klucz];
-
-
+            },
 
 
-                if (pytanie.includes(klucz.toLowerCase())) {
+            "francja": {
+
+                "opis":
+                    "Francja to państwo znajdujące się w Europie Zachodniej."
+
+            }
+
+        },
 
 
+        "kosmos": {
+
+            "slonce":
+                "Gwiazda znajdująca się w centrum Układu Słonecznego.",
+
+            "ziemia":
+                "Planeta, na której żyjemy.",
+
+            "ksiezyc":
+                "Naturalny satelita Ziemi.",
+
+            "mars":
+                "Czwarta planeta od Słońca.",
+
+            "jowisz":
+                "Największa planeta Układu Słonecznego."
+
+        },
 
 
-                    if (typeof wartosc === "string") {
+        "zwierzeta": {
 
-                        return wartosc;
+            "pies": {
 
-                    }
+                "opis":
+                    "Udomowiony ssak należący do rodziny psowatych."
 
-
-
-                    if (
-                        typeof wartosc === "object" &&
-                        wartosc !== null &&
-                        wartosc.przepis &&
-                        pytanie.includes("przepis")
-                    ) {
-
-                        return wartosc.przepis.join("\n");
-
-                    }
+            },
 
 
+            "kot": {
 
-                    if (
-                        typeof wartosc === "object" &&
-                        wartosc !== null &&
-                        wartosc.opis
-                    ) {
+                "opis":
+                    "Mały udomowiony ssak z rodziny kotowatych."
 
-                        return wartosc.opis;
+            },
 
-                    }
+
+            "slon": {
+
+                "opis":
+                    "Największy współcześnie żyjący lądowy ssak."
+
+            }
+
+        }
+
+    };
+
+
+    function znajdzInformacje(obiekt, pytanie) {
+
+        for (let klucz in obiekt) {
+
+            let wartosc = obiekt[klucz];
+
+
+            if (pytanie.includes(klucz.toLowerCase())) {
+
+                if (typeof wartosc === "string") {
+
+                    return wartosc;
 
                 }
 
@@ -383,324 +332,339 @@
                 if (
                     typeof wartosc === "object" &&
                     wartosc !== null &&
-                    !Array.isArray(wartosc)
+                    wartosc.przepis &&
+                    pytanie.includes("przepis")
                 ) {
 
-                    let wynik =
-                        znajdzInformacje(wartosc, pytanie);
+                    return wartosc.przepis.join("\n");
+
+                }
 
 
-                    if (wynik) {
+                if (
+                    typeof wartosc === "object" &&
+                    wartosc !== null &&
+                    wartosc.opis
+                ) {
 
-                        return wynik;
-
-                    }
+                    return wartosc.opis;
 
                 }
 
             }
 
 
-            return null;
+            if (
+                typeof wartosc === "object" &&
+                wartosc !== null &&
+                !Array.isArray(wartosc)
+            ) {
+
+                let wynik =
+                    znajdzInformacje(wartosc, pytanie);
+
+
+                if (wynik) {
+
+                    return wynik;
+
+                }
+
+            }
 
         }
 
 
+        return null;
 
-        function odpowiedz() {
-
-            let tekst =
-                document
-                    .getElementById("wiadomosc")
-                    .value
-                    .toLowerCase()
-                    .trim();
+    }
 
 
-            let wynik =
-                document.getElementById("odpowiedz");
+    function odpowiedz() {
+
+        let tekst =
+            document
+                .getElementById("wiadomosc")
+                .value
+                .toLowerCase()
+                .trim();
 
 
-            /*
-                Puste pole
-            */
-
-            if (tekst === "") {
-
-                wynik.textContent =
-                    "Napisz coś 🙂";
-
-                return;
-
-            }
+        let wynik =
+            document.getElementById("odpowiedz");
 
 
+        if (tekst === "") {
+
+            wynik.textContent =
+                "Napisz coś 🙂";
+
+            return;
+
+        }
 
 
-            if ([
+        if ([
 
-                "hej",
-                "hejo",
-                "hejka",
-                "cześć",
-                "czesc",
-                "siema",
-                "siemka",
-                "elo",
-                "eloo",
-                "witam",
-                "witaj",
-                "yo",
-                "halo",
-                "dzień dobry",
-                "dzien dobry"
+            "hej",
+            "hejo",
+            "hejka",
+            "cześć",
+            "czesc",
+            "siema",
+            "siemka",
+            "elo",
+            "eloo",
+            "witam",
+            "witaj",
+            "yo",
+            "halo",
+            "dzień dobry",
+            "dzien dobry"
 
-            ].includes(tekst)) {
+        ].includes(tekst)) {
 
-                wynik.textContent =
+            wynik.textContent =
 
-                    [
-                        "hej!",
-                        "siema!",
-                        "witam!",
-                        "hejka!"
-                    ]
-                    [Math.floor(Math.random() * 4)]
+                [
+                    "hej!",
+                    "siema!",
+                    "witam!",
+                    "hejka!"
+                ]
+                [Math.floor(Math.random() * 4)]
 
-                    +
+                +
 
-                    [
-                        " 😇",
-                        " 😊",
-                        " 😁",
-                        " 😉"
-                    ]
-                    [Math.floor(Math.random() * 4)];
+                [
+                    " 😇",
+                    " 😊",
+                    " 😁",
+                    " 😉"
+                ]
+                [Math.floor(Math.random() * 4)];
 
-                return;
+            return;
 
-            }
-
-
+        }
 
 
+        if ([
 
-            if ([
-                    
-                "co tam",
-                "cotam",
-                "jak tam",
-                "jaktam",
-                "co słychać",
-                "co slychac",
-                "co u ciebie",
-                "co u cb",
-                "jak leci",
-                "jak życie",
-                "jak zycie",
-                "co robisz",
-                "jak się masz",
-                "jak sie masz",
-                "wszystko ok",
-                "wszystko okej",
-                "wszystko git"
-                        
-            ].includes(tekst)) {
-                        
-                wynik.textContent =
-                        
-                    [
-                        "dobrze",
-                        "git 😎",
-                        "spoko",
-                        "wszystko dobrze",
-                        "u mnie dobrze"
-                    ]
-                    [Math.floor(Math.random() * 5)];
-                            
-                return;
-                            
-            }
+            "co tam",
+            "cotam",
+            "jak tam",
+            "jaktam",
+            "co słychać",
+            "co slychac",
+            "co u ciebie",
+            "co u cb",
+            "jak leci",
+            "jak życie",
+            "jak zycie",
+            "co robisz",
+            "jak się masz",
+            "jak sie masz",
+            "wszystko ok",
+            "wszystko okej",
+            "wszystko git"
 
+        ].includes(tekst)) {
+
+            wynik.textContent =
+
+                [
+                    "dobrze",
+                    "git 😎",
+                    "spoko",
+                    "wszystko dobrze",
+                    "u mnie dobrze"
+                ]
+                [Math.floor(Math.random() * 5)];
+
+            return;
+
+        }
 
 
+        if ([
+
+            "pa",
+            "papa",
+            "pa pa",
+            "do widzenia",
+            "do zobaczenia",
+            "na razie",
+            "narazie",
+            "nara",
+            "narka",
+            "dobranoc",
+            "dobrej nocy",
+            "baj",
+            "bajo",
+            "bajoo",
+            "bye"
+
+        ].includes(tekst)) {
+
+            wynik.textContent =
+                "Do zobaczenia! 👋";
+
+            return;
+
+        }
 
 
-            if ([
+        if ([
 
-                "pa",
-                "papa",
-                "pa pa",
-                "do widzenia",
-                "do zobaczenia",
-                "na razie",
-                "narazie",
-                "nara",
-                "narka",
-                "dobranoc",
-                "dobrej nocy",
-                "baj",
-                "bajo",
-                "bajoo",
-                "bye"
+            "tak",
+            "ta",
+            "nie",
+            "ne"
 
-            ].includes(tekst)) {
+        ].includes(tekst)) {
 
-                wynik.textContent =
-                    "Do zobaczenia! 👋";
+            wynik.textContent =
 
-                return;
+                [
+                    "ok",
+                    "spoko",
+                    "czemu",
+                    "dlaczego :("
+                ]
+                [Math.floor(Math.random() * 4)];
 
-            }
+            return;
 
-            if ([
-                    
-                "tak",
-                "ta",
-                "nie",
-                "ne"
-                        
-            ].includes(tekst)) {
-                        
-                wynik.textContent =
-                        
-                    [
-                        "ok",
-                        "spoko",
-                        "czemu",
-                        "dlaczego :("
-                    ]   
-                    [Math.floor(Math.random() * 4)];
-                            
-                return;
-            }
+        }
 
-            if ([
-                    
-                "czemu",
-                "dlaczego",
-                "czemó",
-                "serio",
-                "serio!",
-                "serio?",
-                "serio!?"
-                        
-            ].includes(tekst)) {
-                        
-                wynik.textContent =
-                        
-                    [
-                        "bo tak",
-                        "nie powiem",
-                        "czemu",
-                        "aha"
-                    ]   
-                    [Math.floor(Math.random() * 4)];
-                            
-                return;
-            }
 
-            if ([
-                    
-                "jak masz na imię",
-                "jak masz na imie",
-                "jak masz naimię",
-                "jak masz naimie",
-                "jak mas na imię",
-                "jak mas na imie"
-                        
-            ].includes(tekst)) {
-                        
-                wynik.textContent =
-                        
-                    [
-                        "mam na imię Milena",
-                        "mam na imię Natalia",
-                        "mam na imię Adam",
-                        "mam na imię Marek"
-                    ]   
-                    [Math.floor(Math.random() * 4)];
-                            
-                return;
-            }
-            
-            /*
-                jeśli wwystępuje
-            */
-            if (tekst.includes("jesteś")||tekst.includes("jestes")) {
-                wynik.textContent =
+        if ([
+
+            "czemu",
+            "dlaczego",
+            "czemó",
+            "serio",
+            "serio!",
+            "serio?",
+            "serio!?"
+
+        ].includes(tekst)) {
+
+            wynik.textContent =
+
+                [
+                    "bo tak",
+                    "nie powiem",
+                    "czemu",
+                    "aha"
+                ]
+                [Math.floor(Math.random() * 4)];
+
+            return;
+
+        }
+
+
+        if ([
+
+            "jak masz na imię",
+            "jak masz na imie",
+            "jak masz naimię",
+            "jak masz naimie",
+            "jak mas na imię",
+            "jak mas na imie"
+
+        ].includes(tekst)) {
+
+            wynik.textContent =
+
+                [
+                    "mam na imię Milena",
+                    "mam na imię Natalia",
+                    "mam na imię Adam",
+                    "mam na imię Marek"
+                ]
+                [Math.floor(Math.random() * 4)];
+
+            return;
+
+        }
+
+
+        if (
+            tekst.includes("jesteś") ||
+            tekst.includes("jestes")
+        ) {
+
+            wynik.textContent =
+
                 [
                     "bo?",
                     "zgadzam się",
                     "czemu",
                     "aha",
                     "dziękuje za komplement"
-                ][Math.floor(Math.random() * 5)];
+                ]
+                [Math.floor(Math.random() * 5)];
 
-                return;
-            }
-
-
-
-
-
-
-            let informacja =
-                znajdzInformacje(baza, tekst);
-
-
-            if (informacja) {
-
-                wynik.textContent =
-                    "jasne  " + informacja;
-
-                return;
-
-            }
-
-
-
-
-            wynik.textContent =
-                    [
-                        "nie wiem, co powiedzieć",
-                        "dawaj",
-                        "👍",
-                        "lubie cię",
-                        "lubisz mnie?",
-                        "nie lubie cię",
-                        "jestem chłopakiem",
-                        "jestem dziewczyną",
-                        "tak",
-                        "nie",
-                        "nie wiem",
-                        "jestem dziwny?"
-                    ]
-                    [Math.floor(Math.random() * 12)];
-                return;
+            return;
 
         }
 
 
+        let informacja =
+            znajdzInformacje(baza, tekst);
 
-        document
-            .getElementById("wiadomosc")
-            .addEventListener(
-                "keydown",
-                function(event) {
 
-                    if (event.key === "Enter") {
+        if (informacja) {
 
-                        odpowiedz();
+            wynik.textContent =
+                "jasne  " + informacja;
 
-                    }
+            return;
+
+        }
+
+
+        wynik.textContent =
+
+            [
+                "nie wiem, co powiedzieć",
+                "dawaj",
+                "👍",
+                "lubie cię",
+                "lubisz mnie?",
+                "nie lubie cię",
+                "jestem chłopakiem",
+                "jestem dziewczyną",
+                "tak",
+                "nie",
+                "nie wiem",
+                "jestem dziwny?"
+            ]
+            [Math.floor(Math.random() * 12)];
+
+        return;
+
+    }
+
+
+    document
+        .getElementById("wiadomosc")
+        .addEventListener(
+            "keydown",
+            function(event) {
+
+                if (event.key === "Enter") {
+
+                    odpowiedz();
 
                 }
-            );
+
+            }
+        );
 
 
-    </script>
-
-</body>
-
-</html>
+</script>
+</body> </html>
