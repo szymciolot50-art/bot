@@ -261,11 +261,6 @@
                 },
                 
 
-                "jak": {
-                    "opis":
-                        "a co cie to obchodzi"
-                },
-
                 "niemcy": {
 
                     "opis":
@@ -599,17 +594,46 @@
                             
                 return;
             }
-            if (tekst.includes("jesteś")) {
-                                    [
-                        "bo?",
-                        "zgadzam się",
-                        "czemu",
-                        "aha"
+
+            if ([
+                    
+                "jak masz na imię",
+                "jak masz na imie",
+                "jak masz naimię",
+                "jak masz naimie",
+                "jak mas na imię",
+                "jak mas na imie"
+                        
+            ].includes(tekst)) {
+                        
+                wynik.textContent =
+                        
+                    [
+                        "mam na imię Milena",
+                        "mam na imię Natalia",
+                        "mam na imię Adam",
+                        "mam na imię Marek",
                     ]   
                     [Math.floor(Math.random() * 4)];
                             
                 return;
+            
+            /*
+                jeśli wwystępuje
+            */
+            if (tekst.includes("jesteś"||"jestes"||"JESTEŚ"||"JESTES")) {
+                wynik.textContent =
+                [
+                    "bo?",
+                    "zgadzam się",
+                    "czemu",
+                    "aha",
+                    "dziękuje za komplement"
+                ][Math.floor(Math.random() * 4)];
+
+                return;
             }
+
 
 
 
@@ -637,14 +661,10 @@
                         "dawaj",
                         "👍",
                         "lubie cię",
-                        "mam naimię Adam",
-                        "mam na imię Marek",
                         "lubisz mnie?",
                         "nie lubie cię",
                         "jestem chłopakiem",
                         "jestem dziewczyną",
-                        "mam naimię Milena",
-                        "mam naimię Natalia",
                         "tak",
                         "nie",
                         "nie wiem",
